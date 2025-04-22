@@ -4,6 +4,9 @@
 --  Auteur : Samba FALL
 --  Description : Requêtes SQL pour explorer les mutations et locaux du DVF.
 -- ============================================================================
+-- 🔄 Vue brute des tables
+SELECT * FROM ds_dvf_d37.mutation;
+SELECT * FROM ds_dvf_d37.adresse_local;
 
 -- 🔍 Requête de test sur une mutation spécifique
 SELECT * 
@@ -149,7 +152,34 @@ FROM ds_dvf_d37.mutation m
 WHERE m.codtypbien IN ('123')
   AND m.idnatmut IN (1, 2, 4)
 GROUP BY m.nblocapt;
+----------------------------------------------------------------------------------------------------------nbappartements part typologie et année
+SELECT l.nbpprinc,l.anneemut, count(*)
+FROM ds_dvf_d37.local l
+INNER JOIN ds_dvf_d37.mutation m ON l.idmutation = m.idmutation
+WHERE m.codtypbien IN ('12121','12122','12123','12124','12125','12120')
+  AND m.idnatmut IN (1, 2, 4)
+  AND l.libtyploc <> 'Dépendance'
+  group by l.nbpprinc,l.anneemut
+  order by l.anneemut
 
--- 🔄 Vue brute des tables
-SELECT * FROM ds_dvf_d37.mutation;
-SELECT * FROM ds_dvf_d37.adresse_local;
+-----------------evolution appartement neuf vefa  
+SELECT l.nbpprinc,l.anneemut, count(*)
+FROM ds_dvf_d37.local l
+INNER JOIN ds_dvf_d37.mutation m ON l.idmutation = m.idmutation
+WHERE m.codtypbien IN ('12111','12112','12113','12114','12115','12110')
+  AND m.idnatmut IN (1, 2, 4)
+  AND l.libtyploc <> 'Dépendance'
+  group by l.nbpprinc,l.anneemut
+  order by l.anneemut
+---------------------------evolution appartement anciens
+-----------------evolution appartement neuf vefa  
+SELECT l.nbpprinc,l.anneemut, count(*)
+FROM ds_dvf_d37.local l
+INNER JOIN ds_dvf_d37.mutation m ON l.idmutation = m.idmutation
+WHERE m.codtypbien IN ('12131','12132','12133','12134','12135','12130')
+  AND m.idnatmut IN (1, 2, 4)
+  AND l.libtyploc <> 'Dépendance'
+  group by l.nbpprinc,l.anneemut
+  order by l.anneemut
+  
+
